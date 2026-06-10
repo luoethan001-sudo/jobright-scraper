@@ -10,13 +10,19 @@ const CONFIG = {
   jobright_url: process.env.JOBRIGHT_URL || 'https://www.jobright.ai',
   scrape_interval: parseInt(process.env.SCRAPE_INTERVAL) || 300000, // 5 minutes
   output_file: process.env.OUTPUT_FILE || 'jobs.json',
-  headless_browser: process.env.HEADLESS_BROWSER !== 'false'
+  headless_browser: process.env.HEADLESS_BROWSER === 'true',
+  gmail_email: process.env.GMAIL_EMAIL || '',
+  gmail_password: process.env.GMAIL_PASSWORD || '',
+  browser_timeout: parseInt(process.env.BROWSER_TIMEOUT) || 30000
 };
 
 // Initialize components
 const scraper = new JobrightScraper({
   baseUrl: CONFIG.jobright_url,
-  headlessBrowser: CONFIG.headless_browser
+  headlessBrowser: CONFIG.headless_browser,
+  gmailEmail: CONFIG.gmail_email,
+  gmailPassword: CONFIG.gmail_password,
+  browserTimeout: CONFIG.browser_timeout
 });
 
 const storage = new StorageManager(CONFIG.output_file);
@@ -60,7 +66,15 @@ async function main() {
   console.log(`📍 Target URL: ${CONFIG.jobright_url}`);
   console.log(`⏱️  Scrape Interval: ${CONFIG.scrape_interval}ms (${CONFIG.scrape_interval / 1000}s)`);
   console.log(`💾 Output File: ${CONFIG.output_file}`);
+  console.log(`🔐 Gmail Auth: ${CONFIG.gmail_email ? '✓ Enabled' : '✗ Disabled'}`);
+  console.log(`🎨 Headless Mode: ${CONFIG.headless_browser ? '✓ On' : '✗ Off'}`);
   console.log('='.repeat(60));
+
+  // Validate Gmail credentials if provided
+  if (CONFIG.gmail_email && !CONFIG.gmail_password) {
+    console.warn('⚠ Gmail email provided but password is missing!');
+    console.log('📌 Set GMAIL_PASSWORD in .env file');
+  }
 
   // Set up signal handlers
   process.on('SIGINT', shutdown);
