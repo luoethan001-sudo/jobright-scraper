@@ -1,0 +1,29 @@
+{
+  "name": "jobright-scraper",
+  "version": "1.0.0",
+  "description": "Real-time web scraping bot for Jobright.ai job postings",
+  "main": "src/index.js",
+  "type": "module",
+  "scripts": {
+    "start": "node src/index.js",
+    "dev": "nodemon src/index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "web-scraping",
+    "jobright",
+    "job-postings",
+    "real-time"
+  ],
+  "author": "luoethan001-sudo",
+  "license": "MIT",
+  "dependencies": {
+    "axios": "^1.6.0",
+    "cheerio": "^1.0.0-rc.12",
+    "puppeteer": "^21.0.0",
+    "dotenv": "^16.3.1"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.1"
+  }
+}

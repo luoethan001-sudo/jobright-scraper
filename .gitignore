@@ -1,0 +1,9 @@
+node_modules/
+.env
+.env.local
+jobs.json
+*.log
+dist/
+.DS_Store
+.vscode/
+.idea/
